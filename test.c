@@ -59,17 +59,17 @@ int main()
     uint8_t counter[NUMBER_OF_PARTS][BLOCK_SIZE] = {};
 
 #ifdef ENCRYPT_MODE
-    set_multiple_line_data_from_file(plaintext, "../input.txt");
-    set_multiple_line_data_from_file(counter, "../ctr.txt");
-    set_data_from_file(key, BLOCK_SIZE, "../key.txt");
+    set_multiple_line_data_from_file(plaintext, "../test_data/input.txt");
+    set_multiple_line_data_from_file(counter, "../test_data/ctr.txt");
+    set_data_from_file(key, BLOCK_SIZE, "../test_data/key.txt");
     do_counter_mode_AES(plaintext, counter, ciphertext, key, NUMBER_OF_PARTS);
     print(ciphertext);
 #endif
 
 #ifdef DECRYPT_MODE
-    set_multiple_line_data_from_file(ciphertext, "../input.txt");
-    set_multiple_line_data_from_file(counter, "../ctr.txt");
-    set_data_from_file(key, BLOCK_SIZE, "../key.txt");
+    set_multiple_line_data_from_file(ciphertext, "../test_data/input.txt");
+    set_multiple_line_data_from_file(counter, "../test_data/ctr.txt");
+    set_data_from_file(key, BLOCK_SIZE, "../test_data/key.txt");
     do_counter_mode_AES(ciphertext, counter, plaintext, key, NUMBER_OF_PARTS);
     print(plaintext);
 #endif
