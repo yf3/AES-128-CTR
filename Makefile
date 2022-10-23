@@ -1,16 +1,22 @@
+CC = gcc
+BIN_NAME = run
 BIN_DIR = ./bin
 OBJ_DIR = ./obj
-CFLAGS = -std=c99
+SRC_DIR = ./
+INC_DIR = ./
+CFLAGS = -std=c99 -g -I$(INC_DIR)/
+ALL_SRCS = $(wildcard $(SRC_DIR)/*.c)
+ALL_OBJS = $(ALL_SRCS:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 .PHONY: clean
 
-test: $(OBJ_DIR)/test.o $(OBJ_DIR)/aes.o $(OBJ_DIR)/counter_mode.o
-	gcc -o $(BIN_DIR)/test $(OBJ_DIR)/test.o $(OBJ_DIR)/aes.o $(OBJ_DIR)/counter_mode.o
+$(BIN_DIR)/$(BIN_NAME): $(ALL_OBJS)
+	$(CC) -o $@ $^
 
-$(OBJ_DIR)/test.o: test.c aes.h
-	gcc -c $(CFLAGS) test.c -o $(OBJ_DIR)/test.o
-$(OBJ_DIR)/aes.o: aes.c aes.h
-	gcc -c $(CFLAGS) aes.c -o $(OBJ_DIR)/aes.o
-$(OBJ_DIR)/counter_mode.o: counter_mode.c counter_mode.h aes.h
-	gcc -c $(CFLAGS) counter_mode.c -o $(OBJ_DIR)/counter_mode.o
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INC_DIR)/%.h
+	$(CC) -c $(CFLAGS) $< -o $@
+
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+	$(CC) -c $(CFLAGS) $< -o $@
+
 clean:
 	rm -r $(BIN_DIR)/* $(OBJ_DIR)/*
